@@ -1,0 +1,62 @@
+<odoo>
+    <!-- Tree View -->
+    <record id="view_assetflow_transfer_tree" model="ir.ui.view">
+        <name>assetflow.transfer.tree</name>
+        <model>assetflow.transfer</model>
+        <arch type="xml">
+            <tree string="Transfers" decoration-info="state == 'draft'" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="current_holder"/>
+                <field name="target_type"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </arch>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_assetflow_transfer_form" model="ir.ui.view">
+        <name>assetflow.transfer.form</name>
+        <model>assetflow.transfer</model>
+        <arch type="xml">
+            <form string="Transfer Request">
+                <header>
+                    <button name="action_approve" string="Approve Transfer" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_reject" string="Reject Request" type="object" class="btn-secondary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Source Details">
+                            <field name="asset_id" options="{'no_create': True}"/>
+                            <field name="current_allocation_id" invisible="1"/>
+                            <field name="current_holder" readonly="1"/>
+                        </group>
+                        <group string="Destination Details">
+                            <field name="target_type" widget="radio"/>
+                            <field name="target_employee_id" attrs="{'invisible': [('target_type', '!=', 'employee')], 'required': [('target_type', '=', 'employee')]}"/>
+                            <field name="target_department_id" attrs="{'invisible': [('target_type', '!=', 'department')], 'required': [('target_type', '=', 'department')]}"/>
+                        </group>
+                    </group>
+                    <group string="Transfer Justification">
+                        <field name="reason" placeholder="Why is this asset being transferred?" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </arch>
+    </record>
+
+    <!-- Action -->
+    <record id="action_assetflow_transfer" model="ir.actions.act_window">
+        <name>Transfer Requests</name>
+        <res_model>assetflow.transfer</res_model>
+        <view_mode>tree,form</view_mode>
+    </record>
+</odoo>

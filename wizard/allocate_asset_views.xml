@@ -1,0 +1,22 @@
+<!-- wizard/allocate_asset_views.xml -->
+<odoo>
+    <record id="view_allocate_asset_wizard_form" model="ir.ui.view">
+        <name>allocate.asset.wizard.form</name>
+        <model>allocate.asset.wizard</model>
+        <arch type="xml">
+            <form string="Allocate Asset">
+                <group>
+                    <field name="asset_id" readonly="1"/>
+                    <field name="allocation_type" widget="radio"/>
+                    <field name="employee_id" attrs="{'invisible': [('allocation_type', '!=', 'employee')], 'required': [('allocation_type', '=', 'employee')]}"/>
+                    <field name="department_id" attrs="{'invisible': [('allocation_type', '!=', 'department')], 'required': [('allocation_type', '=', 'department')]}"/>
+                    <field name="expected_return_date"/>
+                </group>
+                <footer>
+                    <button string="Confirm Allocation" name="action_allocate" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </arch>
+    </record>
+</odoo>

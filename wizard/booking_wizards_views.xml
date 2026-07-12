@@ -1,0 +1,32 @@
+<odoo>
+    <record id="view_booking_wizard_form" model="ir.ui.view">
+        <name>booking.wizard.form</name>
+        <model>booking.wizard</model>
+        <arch type="xml">
+            <form string="Quick Resource Booking">
+                <sheet>
+                    <group>
+                        <group string="Resource">
+                            <field name="asset_id" options="{'no_create': True}"/>
+                            <field name="employee_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Schedule Slot">
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Confirm Booking" name="action_confirm_booking" type="object" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </arch>
+    </record>
+
+    <record id="action_booking_wizard" model="ir.actions.act_window">
+        <name>Book Shared Resource</name>
+        <res_model>booking.wizard</res_model>
+        <view_mode>form</view_mode>
+        <target>new</target> </record>
+</odoo>

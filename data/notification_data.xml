@@ -1,0 +1,14 @@
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_check_overdue_allocations" model="ir.cron">
+            <name>AssetFlow: Flag Overdue Allocations</name>
+            <model_id ref="model_assetflow_allocation"/>
+            <state>code</state>
+            <code>model._compute_is_overdue()</code>
+            <interval_number>1</interval_number>
+            <interval_type>days</interval_type>
+            <numbercall>-1</numbercall>
+            <active>True</active>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,68 @@
+<odoo>
+    <!-- Tree View -->
+    <record id="view_assetflow_allocation_tree" model="ir.ui.view">
+        <name>assetflow.allocation.tree</name>
+        <model>assetflow.allocation</model>
+        <arch type="xml">
+            <tree string="Asset Allocations" decoration-danger="is_overdue == True" decoration-muted="state == 'returned'">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="allocation_type"/>
+                <field name="employee_id" attrs="{'invisible': [('allocation_type', '!=', 'employee')]}"/>
+                <field name="department_id" attrs="{'invisible': [('allocation_type', '!=', 'department')]}"/>
+                <field name="allocation_date"/>
+                <field name="expected_return_date"/>
+                <field name="is_overdue" widget="boolean_toggle" readonly="1"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-info="state == 'returned'"/>
+            </tree>
+        </arch>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_assetflow_allocation_form" model="ir.ui.view">
+        <name>assetflow.allocation.form</name>
+        <model>assetflow.allocation</model>
+        <arch type="xml">
+            <form string="Asset Allocation">
+                <header>
+                    <!-- Trigger the Return Wizard -->
+                    <button name="%(assetflow.action_return_asset_wizard)d" string="Return Asset" type="action" class="btn-primary" attrs="{'invisible': [('state', '!=', 'active')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,returned,transferred"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Target Assignment">
+                            <field name="asset_id" options="{'no_create': True}"/>
+                            <field name="allocation_type" widget="radio"/>
+                            <field name="employee_id" attrs="{'invisible': [('allocation_type', '!=', 'employee')], 'required': [('allocation_type', '=', 'employee')]}"/>
+                            <field name="department_id" attrs="{'invisible': [('allocation_type', '!=', 'department')], 'required': [('allocation_type', '=', 'department')]}"/>
+                        </group>
+                        <group string="Timeline &amp; Status">
+                            <field name="allocation_date"/>
+                            <field name="expected_return_date"/>
+                            <field name="actual_return_date"/>
+                            <field name="is_overdue" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Condition &amp; Return Check-in Notes">
+                        <field name="notes" placeholder="Add setup or check-in notes here..."/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </arch>
+    </record>
+
+    <!-- Action -->
+    <record id="action_assetflow_allocation" model="ir.actions.act_window">
+        <name>Asset Allocations</name>
+        <res_model>assetflow.allocation</res_model>
+        <view_mode>tree,form</view_mode>
+    </record>
+</odoo>

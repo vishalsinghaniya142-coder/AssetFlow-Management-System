@@ -1,0 +1,40 @@
+<odoo>
+    <!-- Allocation Search View -->
+    <record id="view_assetflow_allocation_search" model="ir.ui.view">
+        <name>assetflow.allocation.search</name>
+        <model>assetflow.allocation</model>
+        <arch type="xml">
+            <search string="Search Allocations">
+                <field name="name" string="Reference"/>
+                <field name="asset_id" string="Asset Tag/Name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <filter string="Active Allocations" name="active_alloc" domain="[('state', '=', 'active')]"/>
+                <filter string="Overdue Returns" name="overdue" domain="[('is_overdue', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Employee" name="group_by_employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Department" name="group_by_dept" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </arch>
+    </record>
+
+    <!-- Booking Search View -->
+    <record id="view_assetflow_booking_search" model="ir.ui.view">
+        <name>assetflow.booking.search</name>
+        <model>assetflow.booking</model>
+        <arch type="xml">
+            <search string="Search Bookings">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="employee_id"/>
+                <filter string="Upcoming &amp; Ongoing" name="current_bookings" domain="[('state', 'in', ['upcoming', 'ongoing'])]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Resource/Asset" name="group_by_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Status" name="group_by_status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </arch>
+    </record>
+</odoo>

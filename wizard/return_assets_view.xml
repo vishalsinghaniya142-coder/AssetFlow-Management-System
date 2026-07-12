@@ -1,0 +1,19 @@
+<!-- wizard/return_asset_views.xml -->
+<odoo>
+    <record id="view_return_asset_wizard_form" model="ir.ui.view">
+        <name>return.asset.wizard.form</name>
+        <model>return.asset.wizard</model>
+        <arch type="xml">
+            <form string="Return Asset Check-in">
+                <group>
+                    <field name="allocation_id" readonly="1"/>
+                    <field name="notes" placeholder="Describe the current condition of the asset..."/>
+                </group>
+                <footer>
+                    <button string="Complete Check-In" name="action_return" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </arch>
+    </record>
+</odoo>

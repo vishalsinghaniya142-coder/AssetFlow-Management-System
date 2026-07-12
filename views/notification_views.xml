@@ -1,0 +1,42 @@
+<odoo>
+    <!-- Tree View -->
+    <record id="view_assetflow_notification_tree" model="ir.ui.view">
+        <name>assetflow.notification.tree</name>
+        <model>assetflow.notification</model>
+        <arch type="xml">
+            <tree string="Notifications" create="false" edit="false" decoration-bf="is_read == False">
+                <field name="create_date" string="Timestamp"/>
+                <field name="notification_type" widget="badge" decoration-danger="notification_type == 'overdue'" decoration-info="notification_type == 'booking'"/>
+                <field name="title"/>
+                <field name="message"/>
+                <field name="is_read" widget="boolean_toggle"/>
+            </tree>
+        </arch>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_assetflow_notification_form" model="ir.ui.view">
+        <name>assetflow.notification.form</name>
+        <model>assetflow.notification</model>
+        <arch type="xml">
+            <form string="Notification Details" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <field name="notification_type"/>
+                        <field name="title"/>
+                        <field name="message"/>
+                        <field name="user_id" readonly="1"/>
+                        <field name="is_read"/>
+                    </group>
+                </sheet>
+            </form>
+        </arch>
+    </record>
+
+    <!-- Action -->
+    <record id="action_assetflow_notification" model="ir.actions.act_window">
+        <name>Notifications Feed</name>
+        <res_model>assetflow.notification</res_model>
+        <view_mode>tree,form</view_mode>
+    </record>
+</odoo>
