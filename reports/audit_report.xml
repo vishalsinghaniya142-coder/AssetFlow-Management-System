@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Audit Report -->
+    <record id="action_report_audit" model="ir.actions.report">
+        <field name="name">Audit Log Report</field>
+        <field name="model">audit.log</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">audit.report_template</field>
+    </record>
+
+    <template id="audit.report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h1>Audit Log Report</h1>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>User</th>
+                                <th>Timestamp</th>
+                                <th>Model</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="log">
+                                <tr>
+                                    <td t-esc="log.name"/>
+                                    <td t-esc="log.user_id.name"/>
+                                    <td t-esc="log.timestamp"/>
+                                    <td t-esc="log.model_name"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

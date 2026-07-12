@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Scheduled Jobs (Cron) for Maintenance Module -->
+
+    <!-- Daily Maintenance Check -->
+    <record id="cron_maintenance_check" model="ir.cron">
+        <field name="name">Daily Maintenance Reminder</field>
+        <field name="model_id" ref="model_maintenance_request"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_maintenance_reminder()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- Weekly Audit Log Cleanup -->
+    <record id="cron_audit_cleanup" model="ir.cron">
+        <field name="name">Weekly Audit Log Cleanup</field>
+        <field name="model_id" ref="model_audit_log"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_cleanup_old_logs()</field>
+        <field name="interval_number">7</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>

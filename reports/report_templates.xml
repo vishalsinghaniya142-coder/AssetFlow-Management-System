@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Maintenance Report Template -->
+    <template id="report_maintenance_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.env.user.lang)"/>
+            <div class="page">
+                <div class="oe_structure"/>
+                
+                <h2 class="mt16 mb16">Maintenance Request Analysis</h2>
+                
+                <div class="row mt32 mb32">
+                    <div class="col-auto col-3 mw-100 mb-2">
+                        <strong>Execution Date:</strong>
+                        <p class="m-0" t-field="doc.date_execution"/>
+                    </div>
+                    <div class="col-auto col-3 mw-100 mb-2">
+                        <strong>Responsible:</strong>
+                        <p class="m-0" t-field="doc.user_id.name"/>
+                    </div>
+                </div>
+
+                <table class="table table-sm o_main_table mt32">
+                    <thead>
+                        <tr>
+                            <th name="th_reference" class="text-left">Reference</th>
+                            <th name="th_asset" class="text-left">Asset</th>
+                            <th name="th_type" class="text-left">Type</th>
+                            <th name="th_status" class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="line">
+                            <tr>
+                                <td><span t-field="line.name"/></td>
+                                <td><span t-field="line.asset_id.name"/></td>
+                                <td><span t-field="line.maintenance_type"/></td>
+                                <td class="text-center">
+                                    <span class="badge badge-pill badge-info" t-field="line.stage_id.name"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- Main Entry Point for the Report Engine -->
+    <template id="report_maintenance">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="your_module_name.report_maintenance_document" t-lang="doc.env.user.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

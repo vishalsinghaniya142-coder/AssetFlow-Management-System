@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================ -->
+    <!-- MODULE CATEGORY                                                  -->
+    <!-- ================================================================ -->
+    <record id="module_category_facility_management" model="ir.module.category">
+        <field name="name">Facility Management</field>
+        <field name="description">Access rights for the Facility Management app.</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- GROUPS                                                           -->
+    <!-- ================================================================ -->
+
+    <!-- Base: anyone using the app at all (view assets, own bookings) -->
+    <record id="group_facility_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_facility_management"/>
+        <field name="sequence">10</field>
+        <field name="comment">Can view assets and manage their own bookings.</field>
+    </record>
+
+    <!-- Technician: works on maintenance requests assigned to them -->
+    <record id="group_facility_technician" model="res.groups">
+        <field name="name">Technician</field>
+        <field name="category_id" ref="module_category_facility_management"/>
+        <field name="implied_ids" eval="[(4, ref('group_facility_user'))]"/>
+        <field name="sequence">20</field>
+        <field name="comment">Can create/update maintenance requests assigned to or requested by them.</field>
+    </record>
+
+    <!-- Manager: full operational control over assets, bookings, maintenance -->
+    <record id="group_facility_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_facility_management"/>
+        <field name="implied_ids" eval="[(4, ref('group_facility_technician'))]"/>
+        <field name="sequence">30</field>
+        <field name="comment">Full access to assets, bookings and maintenance across the organization.</field>
+    </record>
+
+    <!-- Auditor: read-only visibility into the audit trail and reports -->
+    <record id="group_facility_auditor" model="res.groups">
+        <field name="name">Auditor</field>
+        <field name="category_id" ref="module_category_facility_management"/>
+        <field name="implied_ids" eval="[(4, ref('group_facility_user'))]"/>
+        <field name="sequence">40</field>
+        <field name="comment">Read-only access to the audit log and analytical reports.</field>
+    </record>
+
+    <!-- Administrator: everything, including security/cron configuration -->
+    <record id="group_facility_administrator" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="module_category_facility_management"/>
+        <field name="implied_ids" eval="[(4, ref('group_facility_manager')), (4, ref('group_facility_auditor'))]"/>
+        <field name="sequence">50</field>
+        <field name="comment">Full control, including audit log visibility and scheduled job configuration.</field>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+</odoo>

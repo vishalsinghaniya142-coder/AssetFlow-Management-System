@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Email Templates for Maintenance Module -->
+
+    <!-- Maintenance Request Approval -->
+    <record id="mail_template_maintenance_approval" model="mail.template">
+        <field name="name">Maintenance Request Approved</field>
+        <field name="model_id" ref="model_maintenance_request"/>
+        <field name="subject">Maintenance Request Approved - {{ object.name }}</field>
+        <field name="body_html">
+<![CDATA[
+<p>Dear Team,</p>
+<p>Your maintenance request <strong>{{ object.name }}</strong> has been approved.</p>
+<p><strong>Asset:</strong> {{ object.asset_id.name }}<br/>
+<strong>Description:</strong> {{ object.description }}</p>
+<p>Thank you.</p>
+]]>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- Maintenance Reminder -->
+    <record id="mail_template_maintenance_reminder" model="mail.template">
+        <field name="name">Maintenance Reminder</field>
+        <field name="model_id" ref="model_maintenance_request"/>
+        <field name="subject">Maintenance Reminder - {{ object.name }}</field>
+        <field name="body_html">
+<![CDATA[
+<p>Reminder: Maintenance request <strong>{{ object.name }}</strong> is still pending.</p>
+<p>Please take necessary action.</p>
+]]>
+        </field>
+    </record>
+
+</odoo>

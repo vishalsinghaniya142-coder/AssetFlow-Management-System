@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================ -->
+    <!-- BULK SCHEDULE WIZARD                                             -->
+    <!-- ================================================================ -->
+    <record id="view_facility_maintenance_schedule_wizard_form" model="ir.ui.view">
+        <field name="name">facility.maintenance.schedule.wizard.form</field>
+        <field name="model">facility.maintenance.schedule.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Schedule Maintenance">
+                <group>
+                    <field name="asset_ids" widget="many2many_tags"/>
+                    <field name="asset_count" invisible="1"/>
+                </group>
+                <group>
+                    <group>
+                        <field name="maintenance_type"/>
+                        <field name="priority" widget="priority"/>
+                        <field name="scheduled_date"/>
+                    </group>
+                    <group>
+                        <field name="technician_id"/>
+                        <field name="downtime_required"/>
+                    </group>
+                </group>
+                <group string="Description">
+                    <field name="description" nolabel="1"
+                           placeholder="Applied to every generated request..."/>
+                </group>
+                <footer>
+                    <button name="action_schedule" type="object"
+                            string="Schedule" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_facility_maintenance_schedule_wizard" model="ir.actions.act_window">
+        <field name="name">Schedule Maintenance</field>
+        <field name="res_model">facility.maintenance.schedule.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="facility_management.model_facility_asset"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- COMPLETE MAINTENANCE WIZARD                                      -->
+    <!-- ================================================================ -->
+    <record id="view_facility_maintenance_complete_wizard_form" model="ir.ui.view">
+        <field name="name">facility.maintenance.complete.wizard.form</field>
+        <field name="model">facility.maintenance.complete.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Complete Maintenance Request">
+                <group>
+                    <field name="maintenance_id" readonly="1"/>
+                    <field name="completion_date"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="actual_cost"/>
+                </group>
+                <group string="Resolution Notes">
+                    <field name="resolution_notes" nolabel="1"
+                           placeholder="Describe how the issue was resolved..."/>
+                </group>
+                <footer>
+                    <button name="action_complete" type="object"
+                            string="Complete" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_facility_maintenance_complete_wizard" model="ir.actions.act_window">
+        <field name="name">Complete Maintenance</field>
+        <field name="res_model">facility.maintenance.complete.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

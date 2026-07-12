@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Maintenance Report -->
+    <record id="action_report_maintenance" model="ir.actions.report">
+        <field name="name">Maintenance Report</field>
+        <field name="model">maintenance.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">maintenance.report_template</field>
+        <field name="report_file">maintenance.report_template</field>
+        <field name="print_report_name">'Maintenance Report - %s' % (object.name)</field>
+    </record>
+
+    <template id="maintenance.report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h1>Maintenance Report</h1>
+                    <t t-foreach="docs" t-as="doc">
+                        <h2 t-esc="doc.name"/>
+                        <table class="table table-condensed">
+                            <tr><th>Asset</th><td t-esc="doc.asset_id.name"/></tr>
+                            <tr><th>Date</th><td t-esc="doc.request_date"/></tr>
+                            <tr><th>Status</th><td t-esc="doc.state"/></tr>
+                            <tr><th>Description</th><td t-esc="doc.description"/></tr>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        NOTE (coordinate with Member 1/2 - Asset module owners):
+        These rules assume `facility.asset` has a `company_id` field
+        (standard for any model needing multi-company support). If the
+        actual field names differ, update `domain_force` below accordingly.
+        No per-user ownership restriction is applied to assets by default,
+        since assets are typically shared organizational resources that
+        every internal user should be able to browse (read-only) in order
+        to make bookings against them.
+    -->
+
+    <!-- All internal Facility users can read every asset (needed to browse
+         and select assets when creating bookings / maintenance requests). -->
+    <record id="rule_facility_asset_user_read_all" model="ir.rule">
+        <field name="name">Asset: All users can view all assets</field>
+        <field name="model_id" ref="model_facility_asset"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_facility_user'))]"/>
+    </record>
+
+    <!-- Manager: unrestricted, explicit for clarity / future-proofing even
+         though it is currently equivalent to the rule above. -->
+    <record id="rule_facility_asset_manager_all" model="ir.rule">
+        <field name="name">Asset: Manager full access</field>
+        <field name="model_id" ref="model_facility_asset"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_facility_manager'))]"/>
+    </record>
+
+    <!-- Multi-company safety net -->
+    <record id="rule_facility_asset_multi_company" model="ir.rule">
+        <field name="name">Asset: Multi-company</field>
+        <field name="model_id" ref="model_facility_asset"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <!--
+        Write/create/unlink permissions themselves (perm_write, perm_create,
+        perm_unlink) belong in the Asset module's own ir.model.access.csv,
+        owned by Member 1/2. These ir.rule records only filter *which rows*
+        a group can see/act on among the rows they already have base
+        access to - they do not grant access on their own.
+    -->
+</odoo>

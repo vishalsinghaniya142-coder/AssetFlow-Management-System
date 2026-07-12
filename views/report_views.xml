@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================ -->
+    <!-- MAINTENANCE ANALYSIS (Pivot + Graph)                             -->
+    <!-- ================================================================ -->
+    <record id="view_facility_maintenance_pivot" model="ir.ui.view">
+        <field name="name">facility.maintenance.pivot</field>
+        <field name="model">facility.maintenance</field>
+        <field name="arch" type="xml">
+            <pivot string="Maintenance Analysis" disable_linking="0">
+                <field name="maintenance_type" type="row"/>
+                <field name="state" type="col"/>
+                <field name="actual_cost" type="measure"/>
+                <field name="duration_hours" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_facility_maintenance_graph" model="ir.ui.view">
+        <field name="name">facility.maintenance.graph</field>
+        <field name="model">facility.maintenance</field>
+        <field name="arch" type="xml">
+            <graph string="Maintenance Analysis" type="bar">
+                <field name="scheduled_date" interval="month"/>
+                <field name="actual_cost" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_facility_maintenance_analysis" model="ir.actions.act_window">
+        <field name="name">Maintenance Analysis</field>
+        <field name="res_model">facility.maintenance</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="context">{'search_default_filter_done': 0}</field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- AUDIT ANALYSIS (Pivot + Graph)                                   -->
+    <!-- ================================================================ -->
+    <record id="view_facility_audit_log_pivot" model="ir.ui.view">
+        <field name="name">facility.audit.log.pivot</field>
+        <field name="model">facility.audit.log</field>
+        <field name="arch" type="xml">
+            <pivot string="Audit Analysis" disable_linking="0">
+                <field name="model_name" type="row"/>
+                <field name="action_type" type="col"/>
+                <field name="id" type="measure" string="Event Count"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_facility_audit_log_graph" model="ir.ui.view">
+        <field name="name">facility.audit.log.graph</field>
+        <field name="model">facility.audit.log</field>
+        <field name="arch" type="xml">
+            <graph string="Audit Analysis" type="line">
+                <field name="create_date" interval="day"/>
+                <field name="id" type="measure" string="Event Count"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_facility_audit_analysis" model="ir.actions.act_window">
+        <field name="name">Audit Analysis</field>
+        <field name="res_model">facility.audit.log</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- PRINTABLE REPORTS - menu shortcuts                               -->
+    <!-- (the ir.actions.report records themselves are defined in         -->
+    <!--  report/asset_report.xml, report/booking_report.xml,             -->
+    <!--  report/maintenance_report.xml, report/audit_report.xml)         -->
+    <!-- ================================================================ -->
+
+    <!-- ================================================================ -->
+    <!-- PRINT DASHBOARD (server action - dashboard has no records of its  -->
+    <!-- own, so we print it against the current company as the "doc")    -->
+    <!-- ================================================================ -->
+    <record id="action_server_print_dashboard_report" model="ir.actions.server">
+        <field name="name">Print Dashboard Report</field>
+        <field name="model_id" ref="base.model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">action = env.ref('facility_management.action_report_facility_dashboard').report_action(env.company)</field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- REPORTING MENU                                                   -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_facility_reporting_root"
+              name="Reporting"
+              parent="menu_facility_root"
+              sequence="80"/>
+
+    <menuitem id="menu_facility_maintenance_analysis"
+              name="Maintenance Analysis"
+              parent="menu_facility_reporting_root"
+              action="action_facility_maintenance_analysis"
+              sequence="10"/>
+
+    <menuitem id="menu_facility_audit_analysis"
+              name="Audit Analysis"
+              parent="menu_facility_reporting_root"
+              action="action_facility_audit_analysis"
+              sequence="20"
+              groups="facility_management.group_facility_auditor,facility_management.group_facility_manager"/>
+
+    <menuitem id="menu_facility_print_dashboard"
+              name="Print Dashboard"
+              parent="menu_facility_reporting_root"
+              action="action_server_print_dashboard_report"
+              sequence="30"/>
+
+</odoo>

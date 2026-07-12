@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        NOTE (coordinate with Member 2/3 - Booking module owners):
+        These rules assume `facility.booking` has a `user_id` field
+        (the user who made/owns the booking) and a `company_id` field.
+        Update `domain_force` below if the actual field names differ.
+    -->
+
+    <!-- Regular users: can only see and manage their own bookings. -->
+    <record id="rule_facility_booking_user_own" model="ir.rule">
+        <field name="name">Booking: User sees own bookings only</field>
+        <field name="model_id" ref="model_facility_booking"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_facility_user'))]"/>
+    </record>
+
+    <!-- Manager: unrestricted visibility across all bookings. OR-combines
+         with the rule above for any manager user (Manager implies User),
+         cancelling out the "own bookings only" restriction. -->
+    <record id="rule_facility_booking_manager_all" model="ir.rule">
+        <field name="name">Booking: Manager sees all</field>
+        <field name="model_id" ref="model_facility_booking"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_facility_manager'))]"/>
+    </record>
+
+    <!-- Multi-company safety net -->
+    <record id="rule_facility_booking_multi_company" model="ir.rule">
+        <field name="name">Booking: Multi-company</field>
+        <field name="model_id" ref="model_facility_booking"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <!--
+        Base CRUD permissions (perm_read/write/create/unlink) belong in the
+        Booking module's own ir.model.access.csv, owned by Member 2/3.
+        These ir.rule records only filter *which rows* are visible/editable
+        among rows the group already has base access to.
+    -->
+</odoo>

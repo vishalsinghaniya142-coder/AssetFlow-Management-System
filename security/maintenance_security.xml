@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================ -->
+    <!-- facility.maintenance                                             -->
+    <!-- ================================================================ -->
+
+    <!-- Technician: only see maintenance requests assigned to them, or
+         that they personally requested. -->
+    <record id="rule_facility_maintenance_technician" model="ir.rule">
+        <field name="name">Maintenance: Technician sees own assigned/requested</field>
+        <field name="model_id" ref="model_facility_maintenance"/>
+        <field name="domain_force">
+            ['|', ('technician_id', '=', user.id), ('requested_by', '=', user.id)]
+        </field>
+        <field name="groups" eval="[(4, ref('group_facility_technician'))]"/>
+    </record>
+
+    <!-- Manager: unrestricted visibility. Because Manager implies Technician,
+         this rule is OR-combined with the technician rule above for any
+         manager user, which effectively cancels out the restriction
+         (OR with an always-true domain = always true). Do not remove this
+         rule or managers will silently lose visibility into requests not
+         assigned to them. -->
+    <record id="rule_facility_maintenance_manager" model="ir.rule">
+        <field name="name">Maintenance: Manager sees all</field>
+        <field name="model_id" ref="model_facility_maintenance"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_facility_manager'))]"/>
+    </record>
+
+    <!-- Global: multi-company safety net, applies to everyone regardless
+         of group (ANDed with the rules above). -->
+    <record id="rule_facility_maintenance_multi_company" model="ir.rule">
+        <field name="name">Maintenance: Multi-company</field>
+        <field name="model_id" ref="model_facility_maintenance"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- facility.maintenance.schedule                                    -->
+    <!-- ================================================================ -->
+    <record id="rule_facility_maintenance_schedule_manager" model="ir.rule">
+        <field name="name">Maintenance Schedule: Manager full visibility</field>
+        <field name="model_id" ref="model_facility_maintenance_schedule"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_facility_manager'))]"/>
+    </record>
+
+    <record id="rule_facility_maintenance_schedule_technician" model="ir.rule">
+        <field name="name">Maintenance Schedule: Technician read-only own asset</field>
+        <field name="model_id" ref="model_facility_maintenance_schedule"/>
+        <field name="domain_force">[('responsible_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_facility_technician'))]"/>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- facility.audit.log                                               -->
+    <!-- ================================================================ -->
+    <!-- No per-user restriction: any user with read access (Auditor /
+         Manager / Administrator, per ir.model.access.csv) sees every log
+         entry. Restricting audit visibility by "ownership" would defeat
+         the purpose of an audit trail. Multi-company separation only. -->
+    <record id="rule_facility_audit_log_multi_company" model="ir.rule">
+        <field name="name">Audit Log: Multi-company</field>
+        <field name="model_id" ref="model_facility_audit_log"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+        <field name="global" eval="True"/>
+    </record>
+
+</odoo>
