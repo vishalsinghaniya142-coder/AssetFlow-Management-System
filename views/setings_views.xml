@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="assetflow_settings_view" model="ir.ui.view">
+
+        <field name="name">assetflow.settings.view</field>
+        <field name="model">res.config.settings</field>
+
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//form" position="inside">
+
+                <app string="AssetFlow">
+
+                    <block title="Dashboard">
+
+                        <setting string="Enable Dashboard">
+                            <field name="dashboard_enabled"/>
+                        </setting>
+
+                        <setting string="Show Dashboard Statistics">
+                            <field name="show_dashboard_statistics"/>
+                        </setting>
+
+                    </block>
+
+                    <block title="API">
+
+                        <setting string="Enable REST API">
+                            <field name="allow_api_access"/>
+                        </setting>
+
+                    </block>
+
+                    <block title="Portal">
+
+                        <setting string="Enable Portal">
+                            <field name="allow_portal_access"/>
+                        </setting>
+
+                    </block>
+
+                    <block title="Asset">
+
+                        <setting string="Auto Generate Asset Code">
+                            <field name="auto_generate_asset_code"/>
+                        </setting>
+
+                        <setting string="Default Category">
+                            <field name="default_asset_category"/>
+                        </setting>
+
+                        <setting string="Company Name">
+                            <field name="company_name"/>
+                        </setting>
+
+                        <setting string="Maintenance Reminder Days">
+                            <field name="maintenance_notification_days"/>
+                        </setting>
+
+                    </block>
+
+                </app>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+    <record id="action_asset_settings" model="ir.actions.act_window">
+        <field name="name">Asset Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+    </record>
+
+</odoo>

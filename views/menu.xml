@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- Root Menu -->
+    <!-- ========================================================= -->
+
+    <menuitem
+        id="menu_assetflow_root"
+        name="AssetFlow"
+        sequence="10"/>
+
+    <!-- ========================================================= -->
+    <!-- Dashboard Menu -->
+    <!-- ========================================================= -->
+
+    <menuitem
+        id="menu_asset_dashboard"
+        name="Dashboard"
+        parent="menu_assetflow_root"
+        action="action_asset_dashboard"
+        sequence="1"/>
+
+    <!-- ========================================================= -->
+    <!-- Settings Menu -->
+    <!-- ========================================================= -->
+
+    <menuitem
+        id="menu_asset_settings"
+        name="Settings"
+        parent="menu_assetflow_root"
+        action="action_asset_settings"
+        sequence="2"
+        groups="base.group_system"/>
+
+</odoo>

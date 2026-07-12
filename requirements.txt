@@ -1,0 +1,9 @@
+# ==========================================
+# AssetFlow Management System Requirements
+# Odoo Hackathon
+# ==========================================
+
+requests>=2.31.0
+python-dateutil>=2.8.2
+psycopg2-binary>=2.9.9
+Pillow>=10.2.0
