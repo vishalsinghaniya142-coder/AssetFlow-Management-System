@@ -1,0 +1,182 @@
+/* ==========================================
+   AssetFlow - Assets CSS
+========================================== */
+
+/* Asset Page */
+
+.asset-container{
+    padding:25px;
+}
+
+/* Asset Header */
+
+.asset-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.asset-header h2{
+    color:#1f2937;
+    font-size:28px;
+    font-weight:700;
+}
+
+/* Asset Cards */
+
+.asset-box{
+    background:#ffffff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.asset-box:hover{
+    transform:translateY(-4px);
+    transition:.3s;
+}
+
+/* Asset Details */
+
+.asset-info{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.asset-item{
+    padding:12px;
+}
+
+.asset-item label{
+    display:block;
+    color:#6b7280;
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.asset-item span{
+    font-size:16px;
+    font-weight:600;
+    color:#111827;
+}
+
+/* Search */
+
+.asset-search{
+    width:300px;
+    padding:10px 15px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    outline:none;
+}
+
+.asset-search:focus{
+    border-color:#2563eb;
+}
+
+/* Table */
+
+.asset-table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.asset-table th{
+    background:#2563eb;
+    color:#fff;
+    padding:14px;
+    text-align:left;
+}
+
+.asset-table td{
+    padding:14px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.asset-table tr:hover{
+    background:#f8fafc;
+}
+
+/* Status */
+
+.asset-status{
+    padding:5px 14px;
+    border-radius:20px;
+    color:white;
+    font-size:13px;
+    font-weight:600;
+}
+
+.available{
+    background:#16a34a;
+}
+
+.assigned{
+    background:#2563eb;
+}
+
+.maintenance{
+    background:#f59e0b;
+}
+
+.retired{
+    background:#dc2626;
+}
+
+/* Buttons */
+
+.asset-btn{
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    font-weight:600;
+}
+
+.asset-btn-primary{
+    background:#2563eb;
+}
+
+.asset-btn-success{
+    background:#16a34a;
+}
+
+.asset-btn-warning{
+    background:#f59e0b;
+}
+
+.asset-btn-danger{
+    background:#dc2626;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.asset-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+}
+
+.asset-search{
+    width:100%;
+}
+
+.asset-info{
+    grid-template-columns:1fr;
+}
+
+.asset-table{
+    display:block;
+    overflow-x:auto;
+}
+
+}

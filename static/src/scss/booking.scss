@@ -1,0 +1,206 @@
+/* ==========================================
+   AssetFlow Booking SCSS
+========================================== */
+
+$primary: #2563eb;
+$success: #22c55e;
+$warning: #f59e0b;
+$danger: #ef4444;
+$white: #ffffff;
+$light: #f8fafc;
+$border: #d1d5db;
+$shadow: 0 5px 15px rgba(0,0,0,.08);
+
+.booking-container{
+    padding:25px;
+    background:$light;
+    min-height:100vh;
+}
+
+.booking-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+
+    h2{
+        color:#1f2937;
+        font-size:28px;
+        font-weight:700;
+    }
+
+}
+
+.booking-card{
+
+    background:$white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:$shadow;
+    transition:.3s;
+
+    &:hover{
+        transform:translateY(-5px);
+    }
+
+}
+
+.booking-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+
+}
+
+.booking-form{
+
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+
+    input,
+    select,
+    textarea{
+
+        padding:10px;
+        border:1px solid $border;
+        border-radius:8px;
+
+        &:focus{
+            outline:none;
+            border-color:$primary;
+        }
+
+    }
+
+}
+
+.booking-table{
+
+    width:100%;
+    border-collapse:collapse;
+    background:$white;
+
+    th{
+
+        background:$primary;
+        color:white;
+        padding:14px;
+
+    }
+
+    td{
+
+        padding:12px;
+        border-bottom:1px solid $border;
+
+    }
+
+    tr:hover{
+
+        background:#f3f4f6;
+
+    }
+
+}
+
+.booking-actions{
+
+    display:flex;
+    gap:10px;
+
+}
+
+.booking-btn{
+
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    transition:.3s;
+
+    &:hover{
+        opacity:.9;
+    }
+
+}
+
+.booking-btn-primary{
+    background:$primary;
+}
+
+.booking-btn-success{
+    background:$success;
+}
+
+.booking-btn-warning{
+    background:$warning;
+}
+
+.booking-btn-danger{
+    background:$danger;
+}
+
+.status-booked{
+
+    background:$primary;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+
+}
+
+.status-approved{
+
+    background:$success;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+
+}
+
+.status-pending{
+
+    background:$warning;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+
+}
+
+.status-cancelled{
+
+    background:$danger;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+
+}
+
+@media(max-width:768px){
+
+.booking-header{
+
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+
+}
+
+.booking-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.booking-table{
+
+    display:block;
+    overflow-x:auto;
+
+}
+
+}

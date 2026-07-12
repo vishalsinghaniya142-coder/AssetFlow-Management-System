@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AssetDashboard(models.Model):
@@ -9,15 +10,26 @@ class AssetDashboard(models.Model):
     _rec_name = "asset_name"
     _order = "create_date desc"
 
+    _sql_constraints = [
+        (
+            "asset_code_unique",
+            "unique(asset_code)",
+            "Asset Code must be unique!"
+        ),
+    ]
+
     asset_name = fields.Char(
         string="Asset Name",
-        required=True
+        required=True,
+        tracking=True
     )
 
     asset_code = fields.Char(
         string="Asset Code",
         required=True,
-        copy=False
+        copy=False,
+        readonly=True,
+        tracking=True
     )
 
     category = fields.Selection(
@@ -33,21 +45,13 @@ class AssetDashboard(models.Model):
         required=True,
     )
 
-    owner = fields.Char(
-        string="Owner"
-    )
+    owner = fields.Char(string="Owner")
 
-    department = fields.Char(
-        string="Department"
-    )
+    department = fields.Char(string="Department")
 
-    purchase_date = fields.Date(
-        string="Purchase Date"
-    )
+    purchase_date = fields.Date(string="Purchase Date")
 
-    purchase_cost = fields.Float(
-        string="Purchase Cost"
-    )
+    purchase_cost = fields.Float(string="Purchase Cost")
 
     status = fields.Selection(
         [
@@ -61,46 +65,47 @@ class AssetDashboard(models.Model):
         tracking=True,
     )
 
-    description = fields.Text(
-        string="Description"
-    )
+    description = fields.Text(string="Description")
 
-    active = fields.Boolean(
-        default=True
-    )
+    active = fields.Boolean(default=True)
+
+    @api.constrains("purchase_cost")
+    def _check_purchase_cost(self):
+        for rec in self:
+            if rec.purchase_cost < 0:
+                raise ValidationError(
+                    "Purchase Cost cannot be negative."
+                )
 
     @api.model
     def create(self, vals):
-        """
-        Automatically generate Asset Code.
-        """
 
         if not vals.get("asset_code"):
-            count = self.search_count([]) + 1
-            vals["asset_code"] = f"AST-{count:04d}"
+
+            total = self.search_count([]) + 1
+
+            vals["asset_code"] = f"AST-{total:04d}"
 
         return super().create(vals)
 
-    def action_mark_assigned(self):
-        for record in self:
-            record.status = "assigned"
-
     def action_mark_available(self):
-        for record in self:
-            record.status = "available"
+        self.write({"status": "available"})
+        return True
+
+    def action_mark_assigned(self):
+        self.write({"status": "assigned"})
+        return True
 
     def action_mark_maintenance(self):
-        for record in self:
-            record.status = "maintenance"
+        self.write({"status": "maintenance"})
+        return True
 
     def action_retire(self):
-        for record in self:
-            record.status = "retired"
+        self.write({"status": "retired"})
+        return True
 
+    @api.model
     def get_dashboard_data(self):
-        """
-        Dashboard Statistics
-        """
 
         return {
             "total_assets": self.search_count([]),

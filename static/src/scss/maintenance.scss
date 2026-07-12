@@ -1,0 +1,197 @@
+/* ==========================================
+   AssetFlow Maintenance SCSS
+========================================== */
+
+$primary: #2563eb;
+$success: #22c55e;
+$warning: #f59e0b;
+$danger: #ef4444;
+$white: #ffffff;
+$light: #f8fafc;
+$border: #d1d5db;
+$shadow: 0 5px 15px rgba(0,0,0,.08);
+
+.maintenance-container{
+    padding:25px;
+    background:$light;
+    min-height:100vh;
+}
+
+.maintenance-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+
+    h2{
+        color:#1f2937;
+        font-size:28px;
+        font-weight:700;
+    }
+
+}
+
+.maintenance-card{
+
+    background:$white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:$shadow;
+    transition:.3s;
+
+    &:hover{
+        transform:translateY(-5px);
+    }
+
+}
+
+.maintenance-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+
+}
+
+.maintenance-form{
+
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+
+    input,
+    select,
+    textarea{
+
+        padding:10px;
+        border:1px solid $border;
+        border-radius:8px;
+
+        &:focus{
+            outline:none;
+            border-color:$primary;
+        }
+
+    }
+
+}
+
+.maintenance-table{
+
+    width:100%;
+    border-collapse:collapse;
+    background:$white;
+
+    th{
+
+        background:$primary;
+        color:white;
+        padding:14px;
+
+    }
+
+    td{
+
+        padding:12px;
+        border-bottom:1px solid $border;
+
+    }
+
+    tr:hover{
+
+        background:#f3f4f6;
+
+    }
+
+}
+
+.maintenance-actions{
+
+    display:flex;
+    gap:10px;
+
+}
+
+.maintenance-btn{
+
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    transition:.3s;
+
+    &:hover{
+        opacity:.9;
+    }
+
+}
+
+.maintenance-btn-primary{
+    background:$primary;
+}
+
+.maintenance-btn-success{
+    background:$success;
+}
+
+.maintenance-btn-warning{
+    background:$warning;
+}
+
+.maintenance-btn-danger{
+    background:$danger;
+}
+
+.maintenance-pending{
+
+    background:$warning;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+
+}
+
+.maintenance-progress{
+
+    background:$primary;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+
+}
+
+.maintenance-completed{
+
+    background:$success;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+
+}
+
+@media(max-width:768px){
+
+.maintenance-header{
+
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+
+}
+
+.maintenance-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.maintenance-table{
+
+    display:block;
+    overflow-x:auto;
+
+}
+
+}

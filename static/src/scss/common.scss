@@ -1,0 +1,168 @@
+/* ==========================================
+   AssetFlow Management System - Common CSS
+========================================== */
+
+:root {
+    --primary: #2563eb;
+    --secondary: #1d4ed8;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #1f2937;
+    --light: #f8fafc;
+    --white: #ffffff;
+    --border: #d1d5db;
+    --radius: 12px;
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--light);
+    color: var(--dark);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.container {
+    width: 95%;
+    margin: auto;
+}
+
+/* Cards */
+
+.asset-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.asset-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Buttons */
+
+.btn-primary,
+.btn-success,
+.btn-warning,
+.btn-danger {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #ffffff;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: var(--primary);
+}
+
+.btn-success {
+    background: var(--success);
+}
+
+.btn-warning {
+    background: var(--warning);
+}
+
+.btn-danger {
+    background: var(--danger);
+}
+
+.btn-primary:hover,
+.btn-success:hover,
+.btn-warning:hover,
+.btn-danger:hover {
+    opacity: 0.9;
+}
+
+/* Tables */
+
+.asset-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+}
+
+.asset-table th {
+    background: var(--primary);
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+}
+
+.asset-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.asset-table tr:hover {
+    background: #f3f4f6;
+}
+
+/* Status */
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.available {
+    background: var(--success);
+}
+
+.assigned {
+    background: var(--primary);
+}
+
+.maintenance {
+    background: var(--warning);
+}
+
+.retired {
+    background: var(--danger);
+}
+
+/* Form */
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .container {
+        width: 98%;
+    }
+
+    .asset-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
